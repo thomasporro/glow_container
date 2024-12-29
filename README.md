@@ -8,7 +8,7 @@
 A Flutter package that offers a highly customizable container widget with a captivating, dynamic glowing effect. This package enhances the visual appeal of your app's UI rectangular containers by adding an animated, luminous border to containers. Perfect for creating eye-catching buttons, cards, or any widget that needs an extra touch of elegance and interactivity.
 
 <div align="center">
-  <img src="example/screenshots/glow_container.gif" alt="Glow Container Example">
+  <img src="https://github.com/thomasporro/glow_container/raw/main/example/screenshots/glow_container.gif" alt="Glow Container Example">
 </div>
 
 ## Features
