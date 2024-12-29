@@ -2,8 +2,10 @@
 
 
 <p align="center">
-    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
+    <a href="https://pub.dev/packages/glow_container"><img src="https://img.shields.io/pub/v/glow_container.svg?color=blue" alt="Pub package"></a>
+    <a href="https://opensource.org/license/BSD-3-Clause"><img src="https://img.shields.io/badge/License-BSD_3--Clause-orange.svg" alt="License: MIT"></a>
 </p>
+
 
 A Flutter package that offers a highly customizable container widget with a captivating, dynamic glowing effect. This package enhances the visual appeal of your app's UI rectangular containers by adding an animated, luminous border to containers. Perfect for creating eye-catching buttons, cards, or any widget that needs an extra touch of elegance and interactivity.
 
