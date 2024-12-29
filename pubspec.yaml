@@ -13,7 +13,7 @@ platforms:
   windows:
 screenshots:
   - description: 'Showcase of the glow container'
-    path: ./example/screenshots/glow_container.gif
+    path: /example/screenshots/glow_container.gif
 
 environment:
   sdk: ^3.4.0
