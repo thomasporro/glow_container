@@ -74,4 +74,4 @@ The following code is contained in the [ExampleWidget](./example/lib/example_wid
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute to this project, please feel free to submit a pull request or open an issue.
+Contributions are welcome! If you'd like to contribute to this project, please feel free to submit a pull request or open an [issue](https://github.com/thomasporro/glow_container/issues).
