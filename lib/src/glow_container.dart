@@ -154,6 +154,12 @@ class _GlowContainerState extends State<GlowContainer>
     if (widget.showAnimatedBorder && widget.gradientColors.length > 1) {
       _rotationController.repeat();
     }
+
+    // If the widget's showAnimatedBorder is false, the transition animation
+    // should be set to the maximum alpha value since the colors are not visible
+    if (!widget.showAnimatedBorder) {
+      _transitionController.value = _maxAlpha.toDouble();
+    }
   }
 
   @override

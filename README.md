@@ -29,7 +29,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  glow_container: ^0.0.1
+  glow_container: ^0.0.4
 ```
 
 ## Usage

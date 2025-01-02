@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Fixed incorrect behavior that showed the glow when the widget was created with `showAnimatedBorder: false`
+
 ## 0.0.3
 
 * Add docs to AnimatedBorderPainter
