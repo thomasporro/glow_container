@@ -148,8 +148,6 @@ class AnimatedBorderPainter extends CustomPainter {
       ),
     );
 
-    final RRect glowRrect = rrect.inflate(thickness / 2);
-
     final Shader shader = SweepGradient(
       colors: gradientColors,
       transform: GradientRotation(angle),
@@ -162,9 +160,11 @@ class AnimatedBorderPainter extends CustomPainter {
 
     canvas.drawRRect(rrect, paint);
 
-    if (glowRadius == 0) {
+    if (glowRadius <= 0) {
       return;
     }
+
+    final RRect glowRrect = rrect.inflate(thickness / 2);
 
     final Paint glowPaint = Paint()
       ..shader = shader
