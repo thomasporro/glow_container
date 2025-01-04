@@ -242,6 +242,9 @@ class _GlowContainerState extends State<GlowContainer>
             painter: AnimatedBorderPainter(
               angle: _angleAnimation.value,
               radius: widget.containerOptions.borderRadius,
+              margin: widget.containerOptions.margin,
+              textDirection:
+                  Directionality.maybeOf(context) ?? TextDirection.ltr,
               glowRadius: widget.glowRadius,
               gradientColors: _glowColors
                   .map(

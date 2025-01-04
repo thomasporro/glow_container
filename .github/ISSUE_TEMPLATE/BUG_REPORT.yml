@@ -25,14 +25,12 @@ body:
       placeholder: Tell us what you see!
     validations:
       required: true
-  - type: dropdown
+  - type: input
     id: version
     attributes:
       label: Version
       description: What version of our software are you running?
-      options:
-        - 0.0.1 (Default)
-      default: 0
+      placeholder: ex. 0.0.1
     validations:
       required: true
   - type: textarea

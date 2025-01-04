@@ -1,6 +1,12 @@
+## 0.0.5
+
+* Fixed behaviour that led the glowing border to be displayed in the wrong position when the widget was created using the `ContainerOptions`' margin.
+
+* Optmized the widget's performance
+
 ## 0.0.4
 
-* Fixed incorrect behavior that showed the glow when the widget was created with `showAnimatedBorder: false`
+* Fixed behaviour that showed the glow when the widget was created with `showAnimatedBorder: false`
 
 ## 0.0.3
 
