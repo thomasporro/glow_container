@@ -35,6 +35,14 @@ class AnimatedBorderPainter extends CustomPainter {
         assert(
           thickness >= 0,
           'AnimatedBorderPainter thickness must be greater than or equal to 0',
+        ),
+        assert(
+          margin == null ||
+              margin is EdgeInsets ||
+              margin is EdgeInsetsDirectional ||
+              margin.isNonNegative,
+          'margin must be null or of type EdgeInsets or EdgeInsetsDirectional. '
+          'If margin is not null, it must be non-negative.',
         );
 
   /// The radius of the border.
@@ -173,5 +181,7 @@ class AnimatedBorderPainter extends CustomPainter {
       oldDelegate.thickness != thickness ||
       oldDelegate.angle != angle ||
       oldDelegate.glowRadius != glowRadius ||
-      oldDelegate.gradientColors != gradientColors;
+      oldDelegate.gradientColors != gradientColors ||
+      oldDelegate.margin != margin ||
+      oldDelegate.textDirection != textDirection;
 }
