@@ -32,7 +32,7 @@ class ContainerOptions {
   /// The border radius of the container.
   ///
   /// This value will be used in `BorderRadius.circular(borderRadius)`, by
-  /// defaulkt the value will be 0.0
+  /// default the value will be 0.0
   final double borderRadius;
 
   /// The border width of the container.
