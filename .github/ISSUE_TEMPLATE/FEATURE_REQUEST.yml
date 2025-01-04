@@ -1,0 +1,19 @@
+
+name: Feature request
+description: Help us improving our package by submitting a feature request
+title: '[FEATURE] '
+labels: ["enhancement", "triage"]
+assignees: 'thomasporro'
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+  - type: textarea
+    id: new-idea
+    attributes:
+      label: What is your idea? 
+      description: Please provide a detailed description of your idea that you would like to see in the package
+      render: Markdown
+    validations:
+      required: true
