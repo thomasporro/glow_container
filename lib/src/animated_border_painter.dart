@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 /// A custom painter used to draw a rotating gradient border around a
@@ -17,9 +16,13 @@ class AnimatedBorderPainter extends CustomPainter {
     required this.gradientColors,
     this.margin,
     this.radius = 0,
+    @Deprecated(
+      'Please use borderSide.width instead',
+    )
     this.thickness = 1,
     this.glowRadius = 2.0,
     this.textDirection = TextDirection.ltr,
+    this.borderSide,
   })  : assert(
           gradientColors.length > 1,
           'AnimatedBorderPainter requires at least two colors to create a gradient',
@@ -43,7 +46,8 @@ class AnimatedBorderPainter extends CustomPainter {
               margin.isNonNegative,
           'margin must be null or of type EdgeInsets or EdgeInsetsDirectional. '
           'If margin is not null, it must be non-negative.',
-        );
+        ),
+        _hiddenBorderSide = borderSide ?? BorderSide(width: thickness);
 
   /// The radius of the border.
   ///
@@ -53,6 +57,12 @@ class AnimatedBorderPainter extends CustomPainter {
   /// The thickness of the border.
   ///
   /// Defaults to 1.
+  ///
+  /// If [borderSide] is provided it will overwrite [thickness] property because
+  /// of its deprecation.
+  @Deprecated(
+    'Please use borderSide.width instead',
+  )
   final double thickness;
 
   /// The angle of the gradient.
@@ -88,6 +98,15 @@ class AnimatedBorderPainter extends CustomPainter {
   /// Is used to resolve the correct direction of the margin in the glowing
   /// effect.
   final TextDirection textDirection;
+
+  /// The border side used to correct render the border.
+  ///
+  /// If [borderSide] is provided it will overwrite [thickness] property because
+  /// of its deprecation.
+  final BorderSide? borderSide;
+
+  /// The correct computed border side.
+  final BorderSide _hiddenBorderSide;
 
   @override
   void paint(final Canvas canvas, final Size size) {
@@ -134,45 +153,48 @@ class AnimatedBorderPainter extends CustomPainter {
         );
     }
 
-    final Rect borderRect = Rect.fromLTWH(
-      0 + thickness / 2 + marginRecord.left,
-      0 + thickness / 2 + marginRecord.top,
-      size.width - thickness - marginRecord.left - marginRecord.right,
-      size.height - thickness - marginRecord.top - marginRecord.bottom,
+    final Rect rect = Rect.fromLTWH(
+      marginRecord.left,
+      marginRecord.top,
+      size.width - marginRecord.left - marginRecord.right,
+      size.height - marginRecord.top - marginRecord.bottom,
     );
 
-    final RRect rrect = RRect.fromRectAndRadius(
-      borderRect,
-      Radius.circular(
-        max(radius - thickness / 2, 0),
-      ),
-    );
+    final RRect borderRect = BorderRadius.circular(radius).toRRect(rect);
 
     final Shader shader = SweepGradient(
       colors: gradientColors,
       transform: GradientRotation(angle),
-    ).createShader(borderRect);
+    ).createShader(rect);
 
-    final Paint paint = Paint()
-      ..shader = shader
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = thickness;
+    final Paint gradientPaint = Paint()..shader = shader;
 
-    canvas.drawRRect(rrect, paint);
+    if (_hiddenBorderSide.width == 0.0) {
+      gradientPaint
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.0;
+      canvas.drawRRect(borderRect, gradientPaint);
+    } else {
+      gradientPaint
+        ..style = PaintingStyle.fill
+        ..color = gradientColors[0];
+      final RRect inner = borderRect.deflate(_hiddenBorderSide.strokeInset);
+      final RRect outer = borderRect.inflate(_hiddenBorderSide.strokeOutset);
+      canvas.drawDRRect(outer, inner, gradientPaint);
+    }
 
     if (glowRadius <= 0) {
       return;
     }
 
-    final RRect glowRrect = rrect.inflate(thickness / 2);
+    final RRect glowRrect = borderRect.inflate(_hiddenBorderSide.strokeOutset);
 
-    final Paint glowPaint = Paint()
-      ..shader = shader
+    gradientPaint
       ..style = PaintingStyle.fill
       ..strokeWidth = glowRadius
       ..maskFilter = MaskFilter.blur(BlurStyle.outer, glowRadius);
 
-    canvas.drawRRect(glowRrect, glowPaint);
+    canvas.drawRRect(glowRrect, gradientPaint);
   }
 
   @override
@@ -183,5 +205,6 @@ class AnimatedBorderPainter extends CustomPainter {
       oldDelegate.glowRadius != glowRadius ||
       oldDelegate.gradientColors != gradientColors ||
       oldDelegate.margin != margin ||
-      oldDelegate.textDirection != textDirection;
+      oldDelegate.textDirection != textDirection ||
+      oldDelegate.borderSide != borderSide;
 }
