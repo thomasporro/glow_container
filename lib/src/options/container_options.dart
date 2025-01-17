@@ -9,15 +9,21 @@ class ContainerOptions {
     this.width,
     this.height,
     this.borderRadius = 0.0,
-    this.borderWidth = 1.0,
-    this.borderColor = const Color(0xFF000000),
+    @Deprecated('Use borderSide.width instead') this.borderWidth,
+    @Deprecated('Use borderSide.color instead') this.borderColor,
     this.padding,
     this.margin,
     this.clipBehavior = Clip.none,
     this.alignment,
     this.backgroundColor,
     this.constraints,
-  });
+    this.borderSide,
+  }) : assert(
+          (borderSide == null && borderWidth == null && borderColor == null) ||
+              ((borderSide != null) ^
+                  (borderWidth != null || borderColor != null)),
+          "If you use borderSide, you can't use borderWidth or borderColor",
+        );
 
   /// The width of the container.
   ///
@@ -38,12 +44,14 @@ class ContainerOptions {
   /// The border width of the container.
   ///
   /// The default value is 1.0
-  final double borderWidth;
+  @Deprecated('Use borderSide.width instead')
+  final double? borderWidth;
 
   /// The border color of the container.
   ///
   /// The default value is [Color(0xFF000000)]
-  final Color borderColor;
+  @Deprecated('Use borderSide.color instead')
+  final Color? borderColor;
 
   /// The padding of the container.
   ///
@@ -74,4 +82,7 @@ class ContainerOptions {
   ///
   /// If null, the container default behavior will be used
   final BoxConstraints? constraints;
+
+  /// The characteristics of the border of the container.
+  final BorderSide? borderSide;
 }

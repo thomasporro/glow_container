@@ -23,15 +23,6 @@ A Flutter package that offers a highly customizable container widget with a capt
 - Support for gradient glow effects
 - Customizable border properties (width, color, radius)
 
-## Installation
-
-Add this to your package's `pubspec.yaml` file:
-
-```yaml
-dependencies:
-  glow_container: ^0.0.4
-```
-
 ## Usage
 
 In this package you can create a glow container, here is an example of a page with the widget:
