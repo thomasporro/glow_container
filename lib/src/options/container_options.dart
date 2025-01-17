@@ -83,6 +83,6 @@ class ContainerOptions {
   /// If null, the container default behavior will be used
   final BoxConstraints? constraints;
 
-  /// The caracteristics of the border of the container.
+  /// The characteristics of the border of the container.
   final BorderSide? borderSide;
 }
