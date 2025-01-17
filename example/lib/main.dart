@@ -80,10 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: GlowContainer(
                           containerOptions: ContainerOptions(
-                            borderColor: Colors.black,
                             borderRadius: _borderRadius,
-                            borderWidth: _borderWidth,
                             padding: const EdgeInsets.all(8.0),
+                            borderSide: BorderSide(
+                              color: Color(0xFF000000),
+                              width: _borderWidth,
+                            ),
                           ),
                           gradientColors:
                               _glowColors.take(_numberOfColors).toList(),
