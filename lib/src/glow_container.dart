@@ -116,7 +116,8 @@ class GlowContainer extends StatefulWidget {
   State<GlowContainer> createState() => _GlowContainerState();
 }
 
-class _GlowContainerState extends State<GlowContainer> with TickerProviderStateMixin {
+class _GlowContainerState extends State<GlowContainer>
+    with TickerProviderStateMixin {
   // The maximum alpha value
   static const int _maxAlpha = 255;
 
@@ -144,7 +145,8 @@ class _GlowContainerState extends State<GlowContainer> with TickerProviderStateM
       duration: widget.rotationDuration,
     );
 
-    _angleAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(_rotationController);
+    _angleAnimation =
+        Tween<double>(begin: 0, end: 2 * pi).animate(_rotationController);
 
     _transitionController = AnimationController(
       vsync: this,
@@ -177,7 +179,8 @@ class _GlowContainerState extends State<GlowContainer> with TickerProviderStateM
     //
     // If the rotationController duration as changed the controller should call
     // `repeat()` even if the controller is already animating.
-    final bool shouldBeRotating = widget.showAnimatedBorder && widget.gradientColors.length > 1;
+    final bool shouldBeRotating =
+        widget.showAnimatedBorder && widget.gradientColors.length > 1;
 
     // The transition animation should start when this conditions are met:
     // 1. The Widget's showAnimatedBorder has changed its value to `true` or
@@ -244,9 +247,11 @@ class _GlowContainerState extends State<GlowContainer> with TickerProviderStateM
         );
     return AnimatedBuilder(
       animation: _transitionAnimation,
-      builder: (final BuildContext context, final Widget? child) => AnimatedBuilder(
+      builder: (final BuildContext context, final Widget? child) =>
+          AnimatedBuilder(
         animation: _rotationController,
-        builder: (final BuildContext context, final Widget? child) => CustomPaint(
+        builder: (final BuildContext context, final Widget? child) =>
+            CustomPaint(
           painter: AnimatedBorderPainter(
             angle: _angleAnimation.value,
             radius: widget.containerOptions.borderRadius,

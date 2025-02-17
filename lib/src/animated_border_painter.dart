@@ -131,7 +131,8 @@ class AnimatedBorderPainter extends CustomPainter {
           bottom: localMargin.bottom
         );
       case == EdgeInsetsDirectional when textDirection == TextDirection.ltr:
-        final EdgeInsetsDirectional localMargin = margin! as EdgeInsetsDirectional;
+        final EdgeInsetsDirectional localMargin =
+            margin! as EdgeInsetsDirectional;
         marginRecord = (
           left: localMargin.start,
           top: localMargin.top,
@@ -139,7 +140,8 @@ class AnimatedBorderPainter extends CustomPainter {
           bottom: localMargin.bottom,
         );
       case == EdgeInsetsDirectional when textDirection == TextDirection.rtl:
-        final EdgeInsetsDirectional localMargin = margin! as EdgeInsetsDirectional;
+        final EdgeInsetsDirectional localMargin =
+            margin! as EdgeInsetsDirectional;
         marginRecord = (
           left: localMargin.end,
           top: localMargin.top,
