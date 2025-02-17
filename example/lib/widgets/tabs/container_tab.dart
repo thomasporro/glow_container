@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+extension ColorExtension on Color {
+  String toHexString() => '#${r.round().toRadixString(16).padLeft(2, '0')}${g.round().toRadixString(16).padLeft(2, '0')}${b.round().toRadixString(16).padLeft(2, '0')}'.toUpperCase();
+}
+
 class ContainerTab extends StatelessWidget {
   final double? width;
   final double? height;
@@ -103,7 +107,6 @@ class ContainerTab extends StatelessWidget {
                       value: height?.clamp(50, 500) ?? 50,
                       min: 50,
                       max: 500,
-                      divisions: 45,
                       onChanged: (value) {
                         onHeightChanged(value);
                       },
@@ -154,7 +157,7 @@ class ContainerTab extends StatelessWidget {
                           color: Theme.of(context)
                               .colorScheme
                               .outline
-                              .withOpacity(0.5),
+                              .withValues(alpha: 128),
                         ),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 12),
@@ -167,7 +170,7 @@ class ContainerTab extends StatelessWidget {
                           color: Theme.of(context)
                               .colorScheme
                               .onSurface
-                              .withOpacity(0.8),
+                              .withValues(alpha: 204),
                         ),
                         onChanged: onAlignmentChanged,
                         items: [
@@ -227,7 +230,7 @@ class ContainerTab extends StatelessWidget {
                           color: Theme.of(context)
                               .colorScheme
                               .outline
-                              .withOpacity(0.5),
+                              .withValues(alpha: 128),
                         ),
                       ),
                       child: Row(
@@ -244,7 +247,7 @@ class ContainerTab extends StatelessWidget {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .outline
-                                          .withOpacity(0.5),
+                                          .withValues(alpha: 128),
                                     )
                                   : null,
                             ),
@@ -262,7 +265,7 @@ class ContainerTab extends StatelessWidget {
                             color: Theme.of(context)
                                 .colorScheme
                                 .outline
-                                .withOpacity(0.2),
+                                .withValues(alpha: 51),
                           ),
                           Expanded(
                             child: Padding(
@@ -278,18 +281,16 @@ class ContainerTab extends StatelessWidget {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurface
-                                          .withOpacity(0.8),
+                                          .withValues(alpha: 204),
                                     ),
                                   ),
                                   SizedBox(width: 4),
                                   Expanded(
                                     child: TextField(
                                       controller: TextEditingController(
-                                        text: backgroundColor?.value
-                                                .toRadixString(16)
-                                                .substring(2)
-                                                .toUpperCase() ??
-                                            '',
+                                        text: backgroundColor != null
+                                            ? backgroundColor!.toHexString().substring(1)
+                                            : '',
                                       ),
                                       style: TextStyle(
                                         fontSize: 16,
@@ -302,7 +303,7 @@ class ContainerTab extends StatelessWidget {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .onSurface
-                                              .withOpacity(0.4),
+                                              .withValues(alpha: 102),
                                           fontSize: 16,
                                           fontFamily: 'monospace',
                                           letterSpacing: 1,
@@ -346,7 +347,7 @@ class ContainerTab extends StatelessWidget {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .onSurface
-                                    .withOpacity(0.4),
+                                    .withValues(alpha: 102),
                               ),
                               onPressed: () => onBackgroundColorChanged(null),
                             ),
