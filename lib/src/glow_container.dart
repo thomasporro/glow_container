@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:glow_container/src/animated_border_painter.dart';
 import 'package:glow_container/src/options/container_options.dart';
+import 'package:glow_container/src/properties/glow_location.dart';
 
 /// A highly customizable Flutter widget that enhances a rectangular container
 /// with an animated glowing border effect.
@@ -39,9 +40,8 @@ class GlowContainer extends StatefulWidget {
     this.showAnimatedBorder = true,
     this.rotationDuration = const Duration(seconds: 2),
     this.transitionDuration = const Duration(milliseconds: 300),
-    this.containerOptions = const ContainerOptions(
-      borderSide: BorderSide(),
-    ),
+    this.containerOptions = const ContainerOptions(),
+    this.glowLocation = GlowLocation.both,
     super.key,
   })  : assert(
           gradientColors.isNotEmpty,
@@ -106,6 +106,11 @@ class GlowContainer extends StatefulWidget {
 
   /// The options for the container
   final ContainerOptions containerOptions;
+
+  /// The location of the glow in the container
+  ///
+  /// See [GlowLocation] for more information
+  final GlowLocation glowLocation;
 
   @override
   State<GlowContainer> createState() => _GlowContainerState();
@@ -234,60 +239,57 @@ class _GlowContainerState extends State<GlowContainer>
   }
 
   @override
-  Widget build(final BuildContext context) {
-    final BorderSide borderSide = widget.containerOptions.borderSide ??
-        BorderSide(
-          width: widget.containerOptions.borderWidth ?? 1.0,
-          color: widget.containerOptions.borderColor ?? const Color(0xFF000000),
-        );
-    return AnimatedBuilder(
-      animation: _transitionAnimation,
-      builder: (final BuildContext context, final Widget? child) =>
-          AnimatedBuilder(
-        animation: _rotationController,
+  Widget build(final BuildContext context) => AnimatedBuilder(
+        animation: _transitionAnimation,
         builder: (final BuildContext context, final Widget? child) =>
-            CustomPaint(
-          painter: AnimatedBorderPainter(
-            angle: _angleAnimation.value,
-            radius: widget.containerOptions.borderRadius,
-            margin: widget.containerOptions.margin,
-            textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
-            glowRadius: widget.glowRadius,
-            gradientColors: _glowColors
-                .map(
-                  (final Color c) => c.withAlpha(
-                    _maxAlpha - _transitionAnimation.value.toInt(),
-                  ),
-                )
-                .toList(),
-            borderSide: borderSide,
-          ),
-          child: Container(
-            margin: widget.containerOptions.margin,
-            padding: widget.containerOptions.padding,
-            width: widget.containerOptions.width,
-            height: widget.containerOptions.height,
-            alignment: widget.containerOptions.alignment,
-            clipBehavior: widget.containerOptions.clipBehavior,
-            constraints: widget.containerOptions.constraints,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: borderSide.width,
-                color: borderSide.color.withAlpha(
-                  _transitionAnimation.value.toInt(),
-                ),
-                strokeAlign: borderSide.strokeAlign,
-                style: borderSide.style,
-              ),
-              borderRadius: BorderRadius.circular(
-                widget.containerOptions.borderRadius,
-              ),
-              color: widget.containerOptions.backgroundColor,
+            AnimatedBuilder(
+          animation: _rotationController,
+          builder: (final BuildContext context, final Widget? child) =>
+              CustomPaint(
+            painter: AnimatedBorderPainter(
+              angle: _angleAnimation.value,
+              radius: widget.containerOptions.borderRadius,
+              margin: widget.containerOptions.margin,
+              glowLocation: widget.glowLocation,
+              textDirection:
+                  Directionality.maybeOf(context) ?? TextDirection.ltr,
+              glowRadius: widget.glowRadius,
+              gradientColors: _glowColors
+                  .map(
+                    (final Color c) => c.withAlpha(
+                      _maxAlpha - _transitionAnimation.value.toInt(),
+                    ),
+                  )
+                  .toList(),
+              borderSide: widget.containerOptions.borderSide,
             ),
-            child: widget.child,
+            child: Container(
+              margin: widget.containerOptions.margin,
+              padding: widget.containerOptions.padding,
+              width: widget.containerOptions.width,
+              height: widget.containerOptions.height,
+              alignment: widget.containerOptions.alignment,
+              clipBehavior: widget.containerOptions.clipBehavior,
+              constraints: widget.containerOptions.constraints,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: widget.containerOptions.borderSide.width,
+                  color: widget.containerOptions.borderSide.color.withAlpha(
+                    widget.glowLocation == GlowLocation.outerOnly
+                        ? _maxAlpha
+                        : _transitionAnimation.value.toInt(),
+                  ),
+                  strokeAlign: widget.containerOptions.borderSide.strokeAlign,
+                  style: widget.containerOptions.borderSide.style,
+                ),
+                borderRadius: BorderRadius.circular(
+                  widget.containerOptions.borderRadius,
+                ),
+                color: widget.containerOptions.backgroundColor,
+              ),
+              child: widget.child,
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

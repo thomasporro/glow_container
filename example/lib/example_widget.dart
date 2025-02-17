@@ -12,11 +12,16 @@ class ExampleWidget extends StatelessWidget {
           glowRadius: 20,
           gradientColors: [Colors.blue, Colors.purple, Colors.pink],
           rotationDuration: Duration(seconds: 3),
+          glowLocation: GlowLocation.both,
           containerOptions: ContainerOptions(
             width: 200,
             height: 200,
             borderRadius: 15,
             backgroundColor: Colors.black,
+            borderSide: BorderSide(
+              width: 1.0,
+              color: Colors.black,
+            ),
           ),
           transitionDuration: Duration(milliseconds: 300),
           showAnimatedBorder: true,

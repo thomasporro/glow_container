@@ -33,6 +33,12 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Build directories
+/build/
+/builds/
+**/build/
+**/builds/
+
 # Symbolication related
 app.*.symbols
 
@@ -43,3 +49,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android NDK build artifacts
+.cxx/
+**/android/.cxx/

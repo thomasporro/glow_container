@@ -1,3 +1,12 @@
+## 1.0.0
+
+* [BREAKING CHANGE] Removed the `borderWidth` and `borderColor` parameters from the ContainerOptions class. Use the `borderSide` parameter instead.
+
+* Added the `glowLocation` parameter to the GlowContainer widget to control where the effect is located on the container.
+
+* Updated the example to demonstrate the usage of the new `glowLocation` parameter.
+
+
 ## 0.1.0
 
 * Fixed an issue where the border of the glowing container wouldn't adapt correctly to its radius when the `radius` parameter was lower than `thickness / 2`.
