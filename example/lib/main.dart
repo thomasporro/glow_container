@@ -37,12 +37,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _showGlowingBorder = true;
   double _borderWidth = 1;
-  double _borderRadius = 0;
+  double _borderRadius = 8;
   double _glowRadius = 4;
   Duration _rotationDuration = const Duration(milliseconds: 2000);
   Duration _transitionDuration = const Duration(milliseconds: 300);
   int _numberOfColors = 3;
-  GlowLocation _glowLocation = GlowLocation.borderOnly;
+  GlowLocation _glowLocation = GlowLocation.both;
 
   // Container options
   double? _width = 200;
