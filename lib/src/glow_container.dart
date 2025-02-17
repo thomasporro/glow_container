@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:glow_container/src/animated_border_painter.dart';
 import 'package:glow_container/src/options/container_options.dart';
+import 'package:glow_container/src/properties/glow_location.dart';
 
 /// A highly customizable Flutter widget that enhances a rectangular container
 /// with an animated glowing border effect.
@@ -39,9 +40,8 @@ class GlowContainer extends StatefulWidget {
     this.showAnimatedBorder = true,
     this.rotationDuration = const Duration(seconds: 2),
     this.transitionDuration = const Duration(milliseconds: 300),
-    this.containerOptions = const ContainerOptions(
-      borderSide: BorderSide(),
-    ),
+    this.containerOptions = const ContainerOptions(),
+    this.glowLocation = GlowLocation.both,
     super.key,
   })  : assert(
           gradientColors.isNotEmpty,
@@ -107,12 +107,16 @@ class GlowContainer extends StatefulWidget {
   /// The options for the container
   final ContainerOptions containerOptions;
 
+  /// The location of the glow in the container
+  ///
+  /// See [GlowLocation] for more information
+  final GlowLocation glowLocation;
+
   @override
   State<GlowContainer> createState() => _GlowContainerState();
 }
 
-class _GlowContainerState extends State<GlowContainer>
-    with TickerProviderStateMixin {
+class _GlowContainerState extends State<GlowContainer> with TickerProviderStateMixin {
   // The maximum alpha value
   static const int _maxAlpha = 255;
 
@@ -140,8 +144,7 @@ class _GlowContainerState extends State<GlowContainer>
       duration: widget.rotationDuration,
     );
 
-    _angleAnimation =
-        Tween<double>(begin: 0, end: 2 * pi).animate(_rotationController);
+    _angleAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(_rotationController);
 
     _transitionController = AnimationController(
       vsync: this,
@@ -174,8 +177,7 @@ class _GlowContainerState extends State<GlowContainer>
     //
     // If the rotationController duration as changed the controller should call
     // `repeat()` even if the controller is already animating.
-    final bool shouldBeRotating =
-        widget.showAnimatedBorder && widget.gradientColors.length > 1;
+    final bool shouldBeRotating = widget.showAnimatedBorder && widget.gradientColors.length > 1;
 
     // The transition animation should start when this conditions are met:
     // 1. The Widget's showAnimatedBorder has changed its value to `true` or
@@ -242,15 +244,14 @@ class _GlowContainerState extends State<GlowContainer>
         );
     return AnimatedBuilder(
       animation: _transitionAnimation,
-      builder: (final BuildContext context, final Widget? child) =>
-          AnimatedBuilder(
+      builder: (final BuildContext context, final Widget? child) => AnimatedBuilder(
         animation: _rotationController,
-        builder: (final BuildContext context, final Widget? child) =>
-            CustomPaint(
+        builder: (final BuildContext context, final Widget? child) => CustomPaint(
           painter: AnimatedBorderPainter(
             angle: _angleAnimation.value,
             radius: widget.containerOptions.borderRadius,
             margin: widget.containerOptions.margin,
+            glowLocation: widget.glowLocation,
             textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
             glowRadius: widget.glowRadius,
             gradientColors: _glowColors
@@ -274,7 +275,9 @@ class _GlowContainerState extends State<GlowContainer>
               border: Border.all(
                 width: borderSide.width,
                 color: borderSide.color.withAlpha(
-                  _transitionAnimation.value.toInt(),
+                  widget.glowLocation == GlowLocation.outerOnly
+                      ? _maxAlpha
+                      : _transitionAnimation.value.toInt(),
                 ),
                 strokeAlign: borderSide.strokeAlign,
                 style: borderSide.style,

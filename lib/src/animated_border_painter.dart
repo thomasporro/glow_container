@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:glow_container/glow_container.dart';
 
 /// A custom painter used to draw a rotating gradient border around a
 /// rectangular container.
@@ -23,6 +24,7 @@ class AnimatedBorderPainter extends CustomPainter {
     this.glowRadius = 2.0,
     this.textDirection = TextDirection.ltr,
     this.borderSide,
+    this.glowLocation = GlowLocation.both,
   })  : assert(
           gradientColors.length > 1,
           'AnimatedBorderPainter requires at least two colors to create a gradient',
@@ -100,13 +102,15 @@ class AnimatedBorderPainter extends CustomPainter {
   final TextDirection textDirection;
 
   /// The border side used to correct render the border.
-  ///
-  /// If [borderSide] is provided it will overwrite [thickness] property because
-  /// of its deprecation.
   final BorderSide? borderSide;
 
   /// The correct computed border side.
   final BorderSide _hiddenBorderSide;
+
+  /// The glow location.
+  ///
+  /// It allows the user to decide where the effect is located.
+  final GlowLocation glowLocation;
 
   @override
   void paint(final Canvas canvas, final Size size) {
@@ -127,8 +131,7 @@ class AnimatedBorderPainter extends CustomPainter {
           bottom: localMargin.bottom
         );
       case == EdgeInsetsDirectional when textDirection == TextDirection.ltr:
-        final EdgeInsetsDirectional localMargin =
-            margin! as EdgeInsetsDirectional;
+        final EdgeInsetsDirectional localMargin = margin! as EdgeInsetsDirectional;
         marginRecord = (
           left: localMargin.start,
           top: localMargin.top,
@@ -136,8 +139,7 @@ class AnimatedBorderPainter extends CustomPainter {
           bottom: localMargin.bottom,
         );
       case == EdgeInsetsDirectional when textDirection == TextDirection.rtl:
-        final EdgeInsetsDirectional localMargin =
-            margin! as EdgeInsetsDirectional;
+        final EdgeInsetsDirectional localMargin = margin! as EdgeInsetsDirectional;
         marginRecord = (
           left: localMargin.end,
           top: localMargin.top,
@@ -169,21 +171,27 @@ class AnimatedBorderPainter extends CustomPainter {
 
     final Paint gradientPaint = Paint()..shader = shader;
 
-    if (_hiddenBorderSide.width == 0.0) {
-      gradientPaint
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.0;
-      canvas.drawRRect(borderRect, gradientPaint);
-    } else {
-      gradientPaint
-        ..style = PaintingStyle.fill
-        ..color = gradientColors[0];
-      final RRect inner = borderRect.deflate(_hiddenBorderSide.strokeInset);
-      final RRect outer = borderRect.inflate(_hiddenBorderSide.strokeOutset);
-      canvas.drawDRRect(outer, inner, gradientPaint);
+    // Draw the border effect if it's not outer only
+    if (glowLocation.shouldPaintBorder) {
+      if (_hiddenBorderSide.width == 0.0) {
+        gradientPaint
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 0.0;
+        canvas.drawRRect(borderRect, gradientPaint);
+      } else {
+        gradientPaint
+          ..style = PaintingStyle.fill
+          ..color = gradientColors[0];
+        final RRect inner = borderRect.deflate(_hiddenBorderSide.strokeInset);
+        final RRect outer = borderRect.inflate(_hiddenBorderSide.strokeOutset);
+        canvas.drawDRRect(outer, inner, gradientPaint);
+      }
     }
 
-    if (glowRadius <= 0) {
+    // final RRect inner = testRect.deflate(strokeInset);
+    // final RRect outer = testRect.inflate(strokeOutset);
+    // Early return if border only since there is no need to draw the glow
+    if (!glowLocation.shouldPaintGlow) {
       return;
     }
 
