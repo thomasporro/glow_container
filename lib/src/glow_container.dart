@@ -239,63 +239,57 @@ class _GlowContainerState extends State<GlowContainer>
   }
 
   @override
-  Widget build(final BuildContext context) {
-    final BorderSide borderSide = widget.containerOptions.borderSide ??
-        BorderSide(
-          width: widget.containerOptions.borderWidth ?? 1.0,
-          color: widget.containerOptions.borderColor ?? const Color(0xFF000000),
-        );
-    return AnimatedBuilder(
-      animation: _transitionAnimation,
-      builder: (final BuildContext context, final Widget? child) =>
-          AnimatedBuilder(
-        animation: _rotationController,
+  Widget build(final BuildContext context) => AnimatedBuilder(
+        animation: _transitionAnimation,
         builder: (final BuildContext context, final Widget? child) =>
-            CustomPaint(
-          painter: AnimatedBorderPainter(
-            angle: _angleAnimation.value,
-            radius: widget.containerOptions.borderRadius,
-            margin: widget.containerOptions.margin,
-            glowLocation: widget.glowLocation,
-            textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
-            glowRadius: widget.glowRadius,
-            gradientColors: _glowColors
-                .map(
-                  (final Color c) => c.withAlpha(
-                    _maxAlpha - _transitionAnimation.value.toInt(),
-                  ),
-                )
-                .toList(),
-            borderSide: borderSide,
-          ),
-          child: Container(
-            margin: widget.containerOptions.margin,
-            padding: widget.containerOptions.padding,
-            width: widget.containerOptions.width,
-            height: widget.containerOptions.height,
-            alignment: widget.containerOptions.alignment,
-            clipBehavior: widget.containerOptions.clipBehavior,
-            constraints: widget.containerOptions.constraints,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: borderSide.width,
-                color: borderSide.color.withAlpha(
-                  widget.glowLocation == GlowLocation.outerOnly
-                      ? _maxAlpha
-                      : _transitionAnimation.value.toInt(),
-                ),
-                strokeAlign: borderSide.strokeAlign,
-                style: borderSide.style,
-              ),
-              borderRadius: BorderRadius.circular(
-                widget.containerOptions.borderRadius,
-              ),
-              color: widget.containerOptions.backgroundColor,
+            AnimatedBuilder(
+          animation: _rotationController,
+          builder: (final BuildContext context, final Widget? child) =>
+              CustomPaint(
+            painter: AnimatedBorderPainter(
+              angle: _angleAnimation.value,
+              radius: widget.containerOptions.borderRadius,
+              margin: widget.containerOptions.margin,
+              glowLocation: widget.glowLocation,
+              textDirection:
+                  Directionality.maybeOf(context) ?? TextDirection.ltr,
+              glowRadius: widget.glowRadius,
+              gradientColors: _glowColors
+                  .map(
+                    (final Color c) => c.withAlpha(
+                      _maxAlpha - _transitionAnimation.value.toInt(),
+                    ),
+                  )
+                  .toList(),
+              borderSide: widget.containerOptions.borderSide,
             ),
-            child: widget.child,
+            child: Container(
+              margin: widget.containerOptions.margin,
+              padding: widget.containerOptions.padding,
+              width: widget.containerOptions.width,
+              height: widget.containerOptions.height,
+              alignment: widget.containerOptions.alignment,
+              clipBehavior: widget.containerOptions.clipBehavior,
+              constraints: widget.containerOptions.constraints,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: widget.containerOptions.borderSide.width,
+                  color: widget.containerOptions.borderSide.color.withAlpha(
+                    widget.glowLocation == GlowLocation.outerOnly
+                        ? _maxAlpha
+                        : _transitionAnimation.value.toInt(),
+                  ),
+                  strokeAlign: widget.containerOptions.borderSide.strokeAlign,
+                  style: widget.containerOptions.borderSide.style,
+                ),
+                borderRadius: BorderRadius.circular(
+                  widget.containerOptions.borderRadius,
+                ),
+                color: widget.containerOptions.backgroundColor,
+              ),
+              child: widget.child,
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -17,10 +17,6 @@ class AnimatedBorderPainter extends CustomPainter {
     required this.gradientColors,
     this.margin,
     this.radius = 0,
-    @Deprecated(
-      'Please use borderSide.width instead',
-    )
-    this.thickness = 1,
     this.glowRadius = 2.0,
     this.textDirection = TextDirection.ltr,
     this.borderSide,
@@ -38,10 +34,6 @@ class AnimatedBorderPainter extends CustomPainter {
           'AnimatedBorderPainter radius must be greater than or equal to 0',
         ),
         assert(
-          thickness >= 0,
-          'AnimatedBorderPainter thickness must be greater than or equal to 0',
-        ),
-        assert(
           margin == null ||
               margin is EdgeInsets ||
               margin is EdgeInsetsDirectional ||
@@ -49,23 +41,12 @@ class AnimatedBorderPainter extends CustomPainter {
           'margin must be null or of type EdgeInsets or EdgeInsetsDirectional. '
           'If margin is not null, it must be non-negative.',
         ),
-        _hiddenBorderSide = borderSide ?? BorderSide(width: thickness);
+        _hiddenBorderSide = borderSide ?? const BorderSide();
 
   /// The radius of the border.
   ///
   /// Defaults to 0.
   final double radius;
-
-  /// The thickness of the border.
-  ///
-  /// Defaults to 1.
-  ///
-  /// If [borderSide] is provided it will overwrite [thickness] property because
-  /// of its deprecation.
-  @Deprecated(
-    'Please use borderSide.width instead',
-  )
-  final double thickness;
 
   /// The angle of the gradient.
   ///
@@ -210,7 +191,6 @@ class AnimatedBorderPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant final AnimatedBorderPainter oldDelegate) =>
       oldDelegate.radius != radius ||
-      oldDelegate.thickness != thickness ||
       oldDelegate.angle != angle ||
       oldDelegate.glowRadius != glowRadius ||
       oldDelegate.gradientColors != gradientColors ||
