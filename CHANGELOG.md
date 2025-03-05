@@ -1,3 +1,9 @@
+# Changelog
+
+## 1.0.1
+
+* Fix a bug on `animated_border_painter.dart` that led to a wrong behavior of the border around the glowing container when the `radius` parameter was set as 0.0.
+
 ## 1.0.0
 
 * [BREAKING CHANGE] Removed the `borderWidth` and `borderColor` parameters from the ContainerOptions class. Use the `borderSide` parameter instead.
@@ -5,7 +11,6 @@
 * Added the `glowLocation` parameter to the GlowContainer widget to control where the effect is located on the container.
 
 * Updated the example to demonstrate the usage of the new `glowLocation` parameter.
-
 
 ## 0.1.0
 
@@ -16,7 +21,6 @@
 * Deprecated the ContainerOptions' `borderWidth` and `borderColor` parameters. Use the `borderSide` parameter instead. These parameters will be removed in a future version.
 
 * Updated the example to demonstrate the usage of the new ContainerOptions' `borderSide` parameter.
-
 
 ## 0.0.5
 
