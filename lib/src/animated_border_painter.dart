@@ -171,10 +171,8 @@ class AnimatedBorderPainter extends CustomPainter {
       }
     }
 
-    // final RRect inner = testRect.deflate(strokeInset);
-    // final RRect outer = testRect.inflate(strokeOutset);
     // Early return if border only since there is no need to draw the glow
-    if (!glowLocation.shouldPaintGlow) {
+    if (!glowLocation.shouldPaintGlow || glowRadius == 0.0) {
       return;
     }
 
