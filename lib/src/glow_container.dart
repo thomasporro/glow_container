@@ -38,6 +38,7 @@ class GlowContainer extends StatefulWidget {
     required this.child,
     this.glowRadius = 4.0,
     this.showAnimatedBorder = true,
+    this.animations = true,
     this.rotationDuration = const Duration(seconds: 2),
     this.transitionDuration = const Duration(milliseconds: 300),
     this.containerOptions = const ContainerOptions(),
@@ -76,6 +77,11 @@ class GlowContainer extends StatefulWidget {
   /// This variable is used to control whether to render the animated border or
   /// the the static color passed inside the [containerOptions.borderColor].
   final bool showAnimatedBorder;
+
+  /// Whether to toggle the animation state. If disabled, only the animations will cease to play.
+  ///
+  /// Default: true
+  final bool animations;
 
   /// The glow radius
   ///
@@ -179,8 +185,9 @@ class _GlowContainerState extends State<GlowContainer>
     //
     // If the rotationController duration as changed the controller should call
     // `repeat()` even if the controller is already animating.
-    final bool shouldBeRotating =
-        widget.showAnimatedBorder && widget.gradientColors.length > 1;
+    final bool shouldBeRotating = widget.showAnimatedBorder &&
+        widget.gradientColors.length > 1 &&
+        widget.animations;
 
     // The transition animation should start when this conditions are met:
     // 1. The Widget's showAnimatedBorder has changed its value to `true` or
