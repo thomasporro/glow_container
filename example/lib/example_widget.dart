@@ -18,13 +18,11 @@ class ExampleWidget extends StatelessWidget {
             height: 200,
             borderRadius: 15,
             backgroundColor: Colors.black,
-            borderSide: BorderSide(
-              width: 1.0,
-              color: Colors.black,
-            ),
+            borderSide: BorderSide(width: 1.0, color: Colors.black),
           ),
           transitionDuration: Duration(milliseconds: 300),
           showAnimatedBorder: true,
+          animations: true,
           child: Center(
             child: Text(
               'Glowing Container',
