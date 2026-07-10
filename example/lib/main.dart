@@ -36,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _showGlowingBorder = true;
+  bool _animated = true;
   double _borderWidth = 1;
   double _borderRadius = 8;
   double _glowRadius = 4;
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(8.0),
                       child: GlowContainer(
                         glowLocation: _glowLocation,
+                        animations: _animated,
                         containerOptions: ContainerOptions(
                           borderRadius: _borderRadius,
                           alignment: _alignment,
@@ -104,17 +106,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             width: _borderWidth,
                           ),
                         ),
-                        gradientColors:
-                            _glowColors.take(_numberOfColors).toList(),
+                        gradientColors: _glowColors
+                            .take(_numberOfColors)
+                            .toList(),
                         glowRadius: _glowRadius,
                         showAnimatedBorder: _showGlowingBorder,
                         rotationDuration: _rotationDuration,
                         transitionDuration: _transitionDuration,
                         child: Text(
                           'Glow Container',
-                          style: TextStyle(
-                            fontSize: 24,
-                          ),
+                          style: TextStyle(fontSize: 24),
                         ),
                       ),
                     ),
@@ -223,6 +224,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 _transitionDuration = value;
                               });
                             },
+                            onChangeAnimated: (p0) {
+                              setState(() {
+                                _animated = p0;
+                              });
+                            },
+                            animated: _animated,
                           ),
                         ],
                       ),
