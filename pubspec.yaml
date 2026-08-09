@@ -1,6 +1,6 @@
 name: glow_container
 description: "A highly customizable Flutter widget that enhances a rectangular container with an animated glowing border effect."
-version: 1.1.1
+version: 1.1.0
 homepage: https://github.com/thomasporro/glow_container
 repository: https://github.com/thomasporro/glow_container
 issue_tracker: https://github.com/thomasporro/glow_container/issues
@@ -12,9 +12,9 @@ platforms:
   web:
   windows:
 
-
 environment:
-  sdk: ^3.12.2
+  sdk: ^3.4.0
+  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
@@ -23,4 +23,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+  flutter_lints: ^5.0.0
