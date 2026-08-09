@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(8.0),
                       child: GlowContainer(
                         glowLocation: _glowLocation,
-                        animations: _animated,
+                        enableRotationAnimation: _animated,
                         containerOptions: ContainerOptions(
                           borderRadius: _borderRadius,
                           alignment: _alignment,

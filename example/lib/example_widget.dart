@@ -22,7 +22,7 @@ class ExampleWidget extends StatelessWidget {
           ),
           transitionDuration: Duration(milliseconds: 300),
           showAnimatedBorder: true,
-          animations: true,
+          enableRotationAnimation: true,
           child: Center(
             child: Text(
               'Glowing Container',

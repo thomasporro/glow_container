@@ -38,25 +38,25 @@ class GlowContainer extends StatefulWidget {
     required this.child,
     this.glowRadius = 4.0,
     this.showAnimatedBorder = true,
-    this.animations = true,
+    this.enableRotationAnimation = true,
     this.rotationDuration = const Duration(seconds: 2),
     this.transitionDuration = const Duration(milliseconds: 300),
     this.containerOptions = const ContainerOptions(),
     this.glowLocation = GlowLocation.both,
     super.key,
-  }) : assert(
-         gradientColors.isNotEmpty,
-         'gradientColors must have at least 1 color',
-       ),
-       assert(glowRadius >= 0, 'glowRadius must be a positive number'),
-       assert(
-         rotationDuration > Duration.zero,
-         'rotationDuration must be greater than 0',
-       ),
-       assert(
-         transitionDuration > Duration.zero,
-         'transitionDuration must be greater than 0',
-       );
+  })  : assert(
+          gradientColors.isNotEmpty,
+          'gradientColors must have at least 1 color',
+        ),
+        assert(glowRadius >= 0, 'glowRadius must be a positive number'),
+        assert(
+          rotationDuration > Duration.zero,
+          'rotationDuration must be greater than 0',
+        ),
+        assert(
+          transitionDuration > Duration.zero,
+          'transitionDuration must be greater than 0',
+        );
 
   /// The list of colors used to create the glowing effect
   ///
@@ -78,7 +78,7 @@ class GlowContainer extends StatefulWidget {
   /// Whether to toggle the animation state. If disabled, only the animations will cease to play.
   ///
   /// Default: true
-  final bool animations;
+  final bool enableRotationAnimation;
 
   /// The glow radius
   ///
@@ -166,7 +166,7 @@ class _GlowContainerState extends State<GlowContainer>
 
     if (widget.showAnimatedBorder &&
         widget.gradientColors.length > 1 &&
-        widget.animations) {
+        widget.enableRotationAnimation) {
       _rotationController.repeat();
     }
 
@@ -247,7 +247,7 @@ class _GlowContainerState extends State<GlowContainer>
 
   @override
   Widget build(final BuildContext context) {
-    if (!widget.animations) {
+    if (!widget.enableRotationAnimation) {
       _rotationController.stop();
     } else {
       if (widget.showAnimatedBorder && widget.gradientColors.length > 1) {
@@ -259,56 +259,53 @@ class _GlowContainerState extends State<GlowContainer>
       animation: _transitionAnimation,
       builder: (final BuildContext context, final Widget? child) =>
           AnimatedBuilder(
-            animation: _rotationController,
-            builder: (final BuildContext context, final Widget? child) =>
-                CustomPaint(
-                  painter: AnimatedBorderPainter(
-                    angle: _angleAnimation.value,
-                    radius: widget.containerOptions.borderRadius,
-                    margin: widget.containerOptions.margin,
-                    glowLocation: widget.glowLocation,
-                    textDirection:
-                        Directionality.maybeOf(context) ?? TextDirection.ltr,
-                    glowRadius: widget.glowRadius,
-                    gradientColors: _glowColors
-                        .map(
-                          (final Color c) => c.withAlpha(
-                            _maxAlpha - _transitionAnimation.value.toInt(),
-                          ),
-                        )
-                        .toList(),
-                    borderSide: widget.containerOptions.borderSide,
+        animation: _rotationController,
+        builder: (final BuildContext context, final Widget? child) =>
+            CustomPaint(
+          painter: AnimatedBorderPainter(
+            angle: _angleAnimation.value,
+            radius: widget.containerOptions.borderRadius,
+            margin: widget.containerOptions.margin,
+            glowLocation: widget.glowLocation,
+            textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
+            glowRadius: widget.glowRadius,
+            gradientColors: _glowColors
+                .map(
+                  (final Color c) => c.withAlpha(
+                    _maxAlpha - _transitionAnimation.value.toInt(),
                   ),
-                  child: Container(
-                    margin: widget.containerOptions.margin,
-                    padding: widget.containerOptions.padding,
-                    width: widget.containerOptions.width,
-                    height: widget.containerOptions.height,
-                    alignment: widget.containerOptions.alignment,
-                    clipBehavior: widget.containerOptions.clipBehavior,
-                    constraints: widget.containerOptions.constraints,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: widget.containerOptions.borderSide.width,
-                        color: widget.containerOptions.borderSide.color
-                            .withAlpha(
-                              widget.glowLocation == GlowLocation.outerOnly
-                                  ? _maxAlpha
-                                  : _transitionAnimation.value.toInt(),
-                            ),
-                        strokeAlign:
-                            widget.containerOptions.borderSide.strokeAlign,
-                        style: widget.containerOptions.borderSide.style,
-                      ),
-                      borderRadius: BorderRadius.circular(
-                        widget.containerOptions.borderRadius,
-                      ),
-                      color: widget.containerOptions.backgroundColor,
-                    ),
-                    child: widget.child,
-                  ),
-                ),
+                )
+                .toList(),
+            borderSide: widget.containerOptions.borderSide,
           ),
+          child: Container(
+            margin: widget.containerOptions.margin,
+            padding: widget.containerOptions.padding,
+            width: widget.containerOptions.width,
+            height: widget.containerOptions.height,
+            alignment: widget.containerOptions.alignment,
+            clipBehavior: widget.containerOptions.clipBehavior,
+            constraints: widget.containerOptions.constraints,
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: widget.containerOptions.borderSide.width,
+                color: widget.containerOptions.borderSide.color.withAlpha(
+                  widget.glowLocation == GlowLocation.outerOnly
+                      ? _maxAlpha
+                      : _transitionAnimation.value.toInt(),
+                ),
+                strokeAlign: widget.containerOptions.borderSide.strokeAlign,
+                style: widget.containerOptions.borderSide.style,
+              ),
+              borderRadius: BorderRadius.circular(
+                widget.containerOptions.borderRadius,
+              ),
+              color: widget.containerOptions.backgroundColor,
+            ),
+            child: widget.child,
+          ),
+        ),
+      ),
     );
   }
 }
