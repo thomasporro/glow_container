@@ -184,6 +184,7 @@ class _GlowContainerState extends State<GlowContainer>
     // 1. The controller is not animating
     // 2. The Widget's colors list has more than 1 color
     // 3. The Widget's showAnimatedBorder is true
+    // 4. Rotation animations are enabled
     //
     // If the rotationController duration as changed the controller should call
     // `repeat()` even if the controller is already animating.
