@@ -187,8 +187,9 @@ class _GlowContainerState extends State<GlowContainer>
     //
     // If the rotationController duration as changed the controller should call
     // `repeat()` even if the controller is already animating.
-    final bool shouldBeRotating =
-        widget.showAnimatedBorder && widget.gradientColors.length > 1;
+    final bool shouldBeRotating = widget.showAnimatedBorder &&
+        widget.gradientColors.length > 1 &&
+        widget.enableRotationAnimation;
 
     // The transition animation should start when this conditions are met:
     // 1. The Widget's showAnimatedBorder has changed its value to `true` or
