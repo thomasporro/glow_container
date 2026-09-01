@@ -6,9 +6,9 @@ class AnimationTab extends StatelessWidget {
   final Duration transitionDuration;
   final Function(Duration) onTransitionDurationChanged;
   final Function(bool) onChangeAnimated;
-  bool animated;
+  final bool animated;
 
-  AnimationTab({
+  const AnimationTab({
     super.key,
     required this.rotationDuration,
     required this.onRotationDurationChanged,
@@ -110,18 +110,12 @@ class AnimationTab extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Checkbox(
-                    value: animated,
-                    onChanged: (B) {
-                      onChangeAnimated(B ?? true);
-                      animated = B ?? true;
-                    },
-                  ),
-                  SizedBox(width: 8),
                   Text(
                     "Animated",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
                   ),
+                  Spacer(),
+                  Switch(value: animated, onChanged: onChangeAnimated),
                 ],
               ),
             ],

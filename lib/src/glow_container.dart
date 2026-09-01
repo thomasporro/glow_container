@@ -75,7 +75,10 @@ class GlowContainer extends StatefulWidget {
   /// the the static color passed inside the [containerOptions.borderColor].
   final bool showAnimatedBorder;
 
-  /// Whether to toggle the animation state. If disabled, only the animations will cease to play.
+  /// Whether the gradient rotation animation should play
+  ///
+  /// When set to false, the gradient stops rotating but the border and glow are
+  /// still rendered with the [gradientColors].
   ///
   /// Default: true
   final bool enableRotationAnimation;

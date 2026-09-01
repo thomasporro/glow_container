@@ -2,7 +2,7 @@
 
 ## 1.1.0
 
-- zontreck: Implement #1: Animations can now be turned off via a toggle
+- zontreck: Implement #1: Animation rotation can now be turned off via a toggle
 
 ## 1.0.1
 
