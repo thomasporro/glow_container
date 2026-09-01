@@ -1,47 +1,51 @@
 # Changelog
 
+## 1.1.0
+
+- zontreck: Implement #1: Animations can now be turned off via a toggle
+
 ## 1.0.1
 
-* Fix a bug on `animated_border_painter.dart` that led to a wrong behavior of the border around the glowing container when the `radius` parameter was set as 0.0.
+- Fix a bug on `animated_border_painter.dart` that led to a wrong behavior of the border around the glowing container when the `radius` parameter was set as 0.0.
 
 ## 1.0.0
 
-* [BREAKING CHANGE] Removed the `borderWidth` and `borderColor` parameters from the ContainerOptions class. Use the `borderSide` parameter instead.
+- [BREAKING CHANGE] Removed the `borderWidth` and `borderColor` parameters from the ContainerOptions class. Use the `borderSide` parameter instead.
 
-* Added the `glowLocation` parameter to the GlowContainer widget to control where the effect is located on the container.
+- Added the `glowLocation` parameter to the GlowContainer widget to control where the effect is located on the container.
 
-* Updated the example to demonstrate the usage of the new `glowLocation` parameter.
+- Updated the example to demonstrate the usage of the new `glowLocation` parameter.
 
 ## 0.1.0
 
-* Fixed an issue where the border of the glowing container wouldn't adapt correctly to its radius when the `radius` parameter was lower than `thickness / 2`.
+- Fixed an issue where the border of the glowing container wouldn't adapt correctly to its radius when the `radius` parameter was lower than `thickness / 2`.
 
-* Added the `borderSide` parameter to the ContainerOptions class to control the border style of the glowing container.
+- Added the `borderSide` parameter to the ContainerOptions class to control the border style of the glowing container.
 
-* Deprecated the ContainerOptions' `borderWidth` and `borderColor` parameters. Use the `borderSide` parameter instead. These parameters will be removed in a future version.
+- Deprecated the ContainerOptions' `borderWidth` and `borderColor` parameters. Use the `borderSide` parameter instead. These parameters will be removed in a future version.
 
-* Updated the example to demonstrate the usage of the new ContainerOptions' `borderSide` parameter.
+- Updated the example to demonstrate the usage of the new ContainerOptions' `borderSide` parameter.
 
 ## 0.0.5
 
-* Fixed behaviour that led the glowing border to be displayed in the wrong position when the widget was created using the `ContainerOptions`' margin.
+- Fixed behaviour that led the glowing border to be displayed in the wrong position when the widget was created using the `ContainerOptions`' margin.
 
-* Optmized the widget's performance
+- Optmized the widget's performance
 
 ## 0.0.4
 
-* Fixed behaviour that showed the glow when the widget was created with `showAnimatedBorder: false`
+- Fixed behaviour that showed the glow when the widget was created with `showAnimatedBorder: false`
 
 ## 0.0.3
 
-* Add docs to AnimatedBorderPainter
+- Add docs to AnimatedBorderPainter
 
-* Add assert to AnimatedBorderPainter to ensure the validity of the parameters
+- Add assert to AnimatedBorderPainter to ensure the validity of the parameters
 
 ## 0.0.2
 
-* Update pubspec.yaml and README.md
+- Update pubspec.yaml and README.md
 
 ## 0.0.1
 
-* Initial release
+- Initial release

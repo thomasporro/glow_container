@@ -38,6 +38,7 @@ class GlowContainer extends StatefulWidget {
     required this.child,
     this.glowRadius = 4.0,
     this.showAnimatedBorder = true,
+    this.enableRotationAnimation = true,
     this.rotationDuration = const Duration(seconds: 2),
     this.transitionDuration = const Duration(milliseconds: 300),
     this.containerOptions = const ContainerOptions(),
@@ -47,10 +48,7 @@ class GlowContainer extends StatefulWidget {
           gradientColors.isNotEmpty,
           'gradientColors must have at least 1 color',
         ),
-        assert(
-          glowRadius >= 0,
-          'glowRadius must be a positive number',
-        ),
+        assert(glowRadius >= 0, 'glowRadius must be a positive number'),
         assert(
           rotationDuration > Duration.zero,
           'rotationDuration must be greater than 0',
@@ -76,6 +74,11 @@ class GlowContainer extends StatefulWidget {
   /// This variable is used to control whether to render the animated border or
   /// the the static color passed inside the [containerOptions.borderColor].
   final bool showAnimatedBorder;
+
+  /// Whether to toggle the animation state. If disabled, only the animations will cease to play.
+  ///
+  /// Default: true
+  final bool enableRotationAnimation;
 
   /// The glow radius
   ///
@@ -136,17 +139,20 @@ class _GlowContainerState extends State<GlowContainer>
   void initState() {
     super.initState();
 
-    _glowColors = List<Color>.from(
-      <Color>[...widget.gradientColors, widget.gradientColors.first],
-    );
+    _glowColors = List<Color>.from(<Color>[
+      ...widget.gradientColors,
+      widget.gradientColors.first,
+    ]);
 
     _rotationController = AnimationController(
       vsync: this,
       duration: widget.rotationDuration,
     );
 
-    _angleAnimation =
-        Tween<double>(begin: 0, end: 2 * pi).animate(_rotationController);
+    _angleAnimation = Tween<double>(
+      begin: 0,
+      end: 2 * pi,
+    ).animate(_rotationController);
 
     _transitionController = AnimationController(
       vsync: this,
@@ -158,7 +164,9 @@ class _GlowContainerState extends State<GlowContainer>
       end: _maxAlpha.toDouble(),
     ).animate(_transitionController);
 
-    if (widget.showAnimatedBorder && widget.gradientColors.length > 1) {
+    if (widget.showAnimatedBorder &&
+        widget.gradientColors.length > 1 &&
+        widget.enableRotationAnimation) {
       _rotationController.repeat();
     }
 
@@ -176,11 +184,13 @@ class _GlowContainerState extends State<GlowContainer>
     // 1. The controller is not animating
     // 2. The Widget's colors list has more than 1 color
     // 3. The Widget's showAnimatedBorder is true
+    // 4. Rotation animations are enabled
     //
     // If the rotationController duration as changed the controller should call
     // `repeat()` even if the controller is already animating.
-    final bool shouldBeRotating =
-        widget.showAnimatedBorder && widget.gradientColors.length > 1;
+    final bool shouldBeRotating = widget.showAnimatedBorder &&
+        widget.gradientColors.length > 1 &&
+        widget.enableRotationAnimation;
 
     // The transition animation should start when this conditions are met:
     // 1. The Widget's showAnimatedBorder has changed its value to `true` or
@@ -192,9 +202,10 @@ class _GlowContainerState extends State<GlowContainer>
         oldWidget.showAnimatedBorder != widget.showAnimatedBorder;
 
     if (oldWidget.gradientColors != widget.gradientColors) {
-      _glowColors = List<Color>.from(
-        <Color>[...widget.gradientColors, widget.gradientColors.first],
-      );
+      _glowColors = List<Color>.from(<Color>[
+        ...widget.gradientColors,
+        widget.gradientColors.first,
+      ]);
     }
 
     if (oldWidget.rotationDuration != widget.rotationDuration) {
@@ -222,11 +233,9 @@ class _GlowContainerState extends State<GlowContainer>
       if (widget.showAnimatedBorder) {
         _transitionController.reverse();
       } else {
-        _transitionController.forward().whenComplete(
-          () {
-            _rotationController.stop();
-          },
-        );
+        _transitionController.forward().whenComplete(() {
+          _rotationController.stop();
+        });
       }
     }
   }
